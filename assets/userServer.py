@@ -112,7 +112,7 @@ def user_login():
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     
-    user = cursor.execute('SELECT * FROM users WHERE email=?',(request.json['email'],)).fetchone()
+    user = cursor.execute('SELECT user_id, email, name, phone, password FROM users WHERE email=?',(request.json['email'],)).fetchone()
     
     if not user:
          return jsonify({"auth": False, "error": "Invalid credentials"}), 401
@@ -120,10 +120,20 @@ def user_login():
     userBytes = request.json['password'].encode('utf-8') 
     
     stored_hash = user[4]
+
+    user_data ={
+        'user_id': user[0],
+        'email': user[1],
+        'name': user[2],
+        'phone': user[3]
+    }
     
     if bcrypt.checkpw(userBytes, stored_hash):
-        return jsonify({"auth": True, "success": "Successfully login"}), 200
+        print('true')
+        print(user_data)
+        return jsonify({"auth": True, "success": "Successfully login", "user": user_data}), 200
     else:
+        print('false')
         return jsonify({"auth": False, "error": "Invalid credentials"}), 401
 
         
