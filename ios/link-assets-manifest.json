@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/Gantari-Bold.ttf",
+      "sha1": "67733134883430e13b2cc514b5fea3395fca675b"
+    },
+    {
       "path": "assets/fonts/Montserrat-VariableFont_wght.ttf",
       "sha1": "e3f5228e62455228b55694f1cb5ac40f9682a86b"
     },
