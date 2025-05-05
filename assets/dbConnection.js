@@ -62,7 +62,7 @@ export const getAllDrinks = async db => {
         const query = `SELECT * FROM drinks`;
         const results = await db.executeSql(query);
 
-        results.array.forEach(result => {
+        results.forEach(result => {
             result.rows.raw().forEach(drink => {
                 drinkData.push({...drink, image: getImage(drink.image)});
             });
@@ -80,10 +80,10 @@ export const getCategoryDrinks = async (db, category) => {
   try {
 
         const drinkData = [];
-        const query = `SELECT * FROM drinks WHERE category=${category}`;
-        const results = await db.executeSql(query);
+        const query = `SELECT * FROM drinks WHERE category=?`;
+        const results = await db.executeSql(query,[category]);
 
-        results.array.forEach(result => {
+        results.forEach(result => {
             result.rows.raw().forEach(drink => {
                 drinkData.push({...drink, image: getImage(drink.image)});
             });
@@ -95,6 +95,27 @@ export const getCategoryDrinks = async (db, category) => {
         throw Error('Failed to get drinks data');
   }
 };
+
+//Get drinks by tag
+export const getTagDrinks = async (db, tag) =>{
+    try {
+
+        const drinkData = [];
+        const query = `SELECT * FROM drinks WHERE tag=?`;
+        const results = await db.executeSql(query,[tag]);
+
+        results.forEach(result => {
+            result.rows.raw().forEach(drink => {
+                drinkData.push({...drink, image: getImage(drink.image)});
+            });
+        });
+
+        return drinkData;
+  } catch (error) {
+        console.error(error);
+        throw Error('Failed to get drinks data');
+  }
+}
 
 // Add item to cart
 export const addCartItem = async (db, user_id, drink_id, quantity, size, sugar) =>{
@@ -148,7 +169,7 @@ export const getCartItem = async (db, user_id) =>{
         const query = `SELECT * FROM cart JOIN drinks ON cart.drink_id = drinks.drink_id WHERE cart.user_id=? `;
         const results = await db.executeSql(query,[user_id]);
 
-        results.array.forEach(result => {
+        results.forEach(result => {
             result.rows.raw().forEach(drink => {
                 cartData.push({...drink, image: getImage(drink.image)});
             });
