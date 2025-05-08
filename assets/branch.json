@@ -1,0 +1,32 @@
+{
+    "branches":{
+        "branch_1":{
+            "address": "No 19, Ground Floor, Jalan SL 1/4, Bandar Sungai Long, 43000 Kajang, Selangor",
+            "longitude": "3.0408914440595165",
+            "latitude": "101.79291174104488",
+            "opening_time":{
+                "Monday": "9:00AM - 10:00PM",
+                "Tuesday": "9:00AM - 10:00PM",
+                "Wednesday": "9:00AM - 10:00PM",
+                "Thursday": "9:00AM - 10:00PM",
+                "Friday": "9:00AM - 10:00PM",
+                "Saturday": "9:00AM -11:00PM",
+                "Sunday": "9:00AM - 11:00PM"
+            }
+        },
+        "branch_2":{
+            "address": "UCSI Heights, Lot 6, Block G, Ground Floor, UCSI University, 1, Jalan Menara Gading, Taman Connaught, 56000 Cheras, Wilayah Persekutuan Kuala Lumpur",
+            "longitude": "3.078469663341562",
+            "latitude": "101.7328666563733",
+            "opening_time":{
+                "Monday": "9:00AM - 10:00PM",
+                "Tuesday": "9:00AM - 10:00PM",
+                "Wednesday": "9:00AM - 10:00PM",
+                "Thursday": "9:00AM - 10:00PM",
+                "Friday": "9:00AM - 10:00PM",
+                "Saturday": "9:00AM -11:00PM",
+                "Sunday": "9:00AM - 11:00PM"
+            }
+        }
+    }
+}
