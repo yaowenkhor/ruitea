@@ -74,6 +74,7 @@ const LoginScreen = ({route, navigation}) => {
                 Alert.alert('Message', data.success);
                 clearInput();
                 _saveUserSession(data.user.user_id, data.user.name, data.user.email, data.user.phone);
+                checkSession();
             }else{
                 Alert.alert('Message', data.error);
             }
