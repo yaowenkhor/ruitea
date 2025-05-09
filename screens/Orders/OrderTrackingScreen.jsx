@@ -1,9 +1,9 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 
 const OrderTrackingScreen = () => {
   return (
-    <View></View>
+    <View><Text>Order Tracking</Text></View>
   )
 }
 
