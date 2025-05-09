@@ -191,7 +191,7 @@ export const processCheckout = async (db, user_id) =>{
         const cartItems = await getCartItem(db, user_id);
         const orderNumber = shortid.generate();
 
-        const insertQuery = `INSERT INTO orderHistory (user_id, drink_id, quantity, size, sugar, date, order_number) VALUES (?, ?, ?, ?, ?, ?, ?)`; 
+        const insertQuery = `INSERT INTO orderHistory (user_id, drink_id, quantity, size, sugar, date, order_number, status) VALUES (?, ?, ?, ?, ?, ?, ?, 'Preparing')`; 
 
         for(const item of cartItems){
             await db.executeSql(insertQuery,[item.user_id, item.drink_id, item.quantity, item.size, item.sugar, date, orderNumber]);
@@ -205,6 +205,17 @@ export const processCheckout = async (db, user_id) =>{
     } catch (error) {
         console.error(error);
         throw Error('Failed to process checkout');
+    }
+}
+
+export const updateOrderStatus = async (db, orderNumber, status) =>{
+    try {
+        const query = `UPDATE orderHistory SET status=? WHERE orderNumber=?`;
+        await db.executeSql(query,[status, orderNumber]);
+        return true;
+    } catch (error) {
+        console.error(error);
+        throw Error('Failed to update order status');
     }
 }
 
