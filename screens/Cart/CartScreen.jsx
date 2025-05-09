@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../../modules/loginoutStyle';
+import { cartStyles } from '../../modules/CartScreenStyle';
 import { Swipeable } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
@@ -8,18 +9,27 @@ import {
   getCartItem,
   updateCartItem,
   removeCartItem,
-} from '../../assets/dbConnection.js';
+} from '../../assets/dbConnection';
+import { _readUserSession } from '../../assets/sessionData';
 
 const CartScreen = ({ navigation }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [userId, setUserId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const user_id = 1; // Replace with session data when available
   const swipeableRefs = useRef({});
 
   const loadCart = async () => {
     try {
+      const session = await _readUserSession();
+      if (!session || !session.user_id) {
+        Alert.alert('Error', 'User not logged in.');
+        navigation.replace('LoginScreen');
+        return;
+      }
+
+      setUserId(session.user_id);
       const db = await getDBConnection();
-      const items = await getCartItem(db, user_id);
+      const items = await getCartItem(db, session.user_id);
 
       const formatted = items.map(item => ({
         id: item.cart_id.toString(),
@@ -44,8 +54,14 @@ const CartScreen = ({ navigation }) => {
     loadCart();
   }, []);
 
+  const getAdjustedPrice = (basePrice, size) => {
+    if (size === 'Small') return basePrice * 0.75;
+    if (size === 'Large') return basePrice * 1.25;
+    return basePrice;
+  };
+
   const getTotal = () =>
-    cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+    cartItems.reduce((total, item) => total + getAdjustedPrice(item.price, item.size) * item.quantity, 0).toFixed(2);
 
   const increaseQty = async (id) => {
     const updatedItems = cartItems.map(item =>
@@ -72,80 +88,53 @@ const CartScreen = ({ navigation }) => {
   };
 
   const deleteItem = async (id) => {
-    Alert.alert('Remove Item', 'Are you sure you want to remove this item?', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Delete',
-        style: 'destructive',
-        onPress: async () => {
-          const db = await getDBConnection();
-          await removeCartItem(db, id);
-          swipeableRefs.current[id]?.close();
-          setCartItems(items => items.filter(item => item.id !== id));
-        },
-      },
-    ]);
+    try {
+      const db = await getDBConnection();
+      await removeCartItem(db, id);
+      swipeableRefs.current[id]?.close();
+      setCartItems(items => items.filter(item => item.id !== id));
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+    }
   };
 
   const renderRightActions = (id) => (
     <TouchableOpacity
       onPress={() => deleteItem(id)}
-      style={{
-        backgroundColor: '#B00020',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 50,
-        marginTop: 25,
-        height: '50%',
-        borderTopRightRadius: 50,
-        borderBottomRightRadius: 50,
-        borderTopLeftRadius: 50,
-        borderBottomLeftRadius: 50,
-      }}
+      style={cartStyles.swipeDelete}
     >
       <Icon name="trash-can-outline" size={25} color="#fff" />
     </TouchableOpacity>
   );
 
-  const renderItem = ({ item }) => (
-    <Swipeable
-      ref={(ref) => (swipeableRefs.current[item.id] = ref)}
-      renderRightActions={() => renderRightActions(item.id)}
-      overshootRight={false}
-    >
-      <View
-        style={{
-          backgroundColor: 'white',
-          borderRadius: 12,
-          padding: 10,
-          marginVertical: 8,
-          width: '100%',
-          shadowColor: '#000',
-          shadowOpacity: 0.1,
-          shadowRadius: 6,
-          elevation: 3,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 10,
-        }}
+  const renderItem = ({ item }) => {
+    const adjustedPrice = getAdjustedPrice(item.price, item.size);
+    return (
+      <Swipeable
+        ref={(ref) => (swipeableRefs.current[item.id] = ref)}
+        renderRightActions={() => renderRightActions(item.id)}
+        overshootRight={false}
       >
-        <Image source={item.image} style={{ height: 60, width: 60, borderRadius: 10 }} />
-        <View style={{ flex: 1 }}>
-          <Text style={{ fontFamily: 'Gantari-Bold', fontSize: 16 }}>{item.name}</Text>
-          <Text style={{ fontFamily: 'Gantari-Bold', color: '#777' }}>RM {item.price.toFixed(2)}</Text>
+        <View style={cartStyles.card}>
+          <Image source={item.image} style={cartStyles.image} />
+          <View style={cartStyles.cardDetails}>
+            <Text style={cartStyles.name}>{item.name}</Text>
+            <Text style={cartStyles.price}>RM {adjustedPrice.toFixed(2)}</Text>
+            <Text style={cartStyles.detail}>Size: {item.size} | Sugar: {item.sugar}</Text>
+          </View>
+          <View style={cartStyles.qtyContainer}>
+            <TouchableOpacity onPress={() => decreaseQty(item.id)}>
+              <Text style={cartStyles.qtyBtn}>−</Text>
+            </TouchableOpacity>
+            <Text>{item.quantity}</Text>
+            <TouchableOpacity onPress={() => increaseQty(item.id)}>
+              <Text style={cartStyles.qtyBtn}>+</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-          <TouchableOpacity onPress={() => decreaseQty(item.id)}>
-            <Text style={{ fontSize: 20 }}>−</Text>
-          </TouchableOpacity>
-          <Text>{item.quantity}</Text>
-          <TouchableOpacity onPress={() => increaseQty(item.id)}>
-            <Text style={{ fontSize: 20 }}>+</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </Swipeable>
-  );
+      </Swipeable>
+    );
+  };
 
   const handleCheckout = () => {
     if (cartItems.length === 0) {
@@ -161,24 +150,15 @@ const CartScreen = ({ navigation }) => {
         <Icon name="cart" size={25} /> Your Cart
       </Text>
       <FlatList
-        style={{ width: '100%' }}
+        style={cartStyles.list}
         data={cartItems}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
-        ListEmptyComponent={
-          <Text style={{ fontFamily: 'Gantari-Bold', marginTop: 20 }}>
-            Your cart is empty.
-          </Text>
-        }
+        ListEmptyComponent={<Text style={cartStyles.empty}>Your cart is empty.</Text>}
       />
-      <View style={{ width: '100%', marginTop: 20 }}>
-        <Text style={{ fontFamily: 'Gantari-Bold', fontSize: 18 }}>
-          Total: RM {getTotal()}
-        </Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleCheckout}
-        >
+      <View style={cartStyles.totalContainer}>
+        <Text style={cartStyles.totalText}>Total: RM {getTotal()}</Text>
+        <TouchableOpacity style={styles.button} onPress={handleCheckout}>
           <Text style={styles.button_text}>Checkout</Text>
         </TouchableOpacity>
       </View>
