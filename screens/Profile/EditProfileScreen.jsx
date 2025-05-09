@@ -4,6 +4,8 @@ import { styles } from '../../modules/loginoutStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { _readUserSession } from '../../assets/sessionData';
 
+let config = require('../../Config');
+
 const EditProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +27,9 @@ const EditProfileScreen = ({ navigation }) => {
 
         setUserId(session.user_id);
 
-        const response = await fetch(`http://192.168.0.110:5003/api/user/${session.user_id}`);
+        let url = config.settings.serverPath + `api/user/${session.user_id}`;
+
+        const response = await fetch(url);
         const data = await response.json();
 
         if (data.error) {
@@ -54,7 +58,10 @@ const EditProfileScreen = ({ navigation }) => {
     };
 
     try {
-      const response = await fetch(`http://192.168.0.110:5003/api/user/update/${userId}`, {
+
+      let url = config.settings.serverPath + `api/user/update/${userId}`;
+
+      const response = await fetch(url, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedData),
@@ -74,7 +81,7 @@ const EditProfileScreen = ({ navigation }) => {
 
 
   if (isLoading || !user) {
-    return <Text>Loading...</Text>;
+    return <LoadingComponent title={'Loading...'} />;
   }
 
   return (

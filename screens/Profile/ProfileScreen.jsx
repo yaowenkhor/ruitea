@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { _readUserSession } from '../../assets/sessionData';
+import { _readUserSession, _deleteUserSession } from '../../assets/sessionData';
 import { profileStyles as styles } from '../../modules/profileScreenStyle';
+
+import LoadingComponent from '../../components/LoadingComponent';
 
 const ProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
@@ -26,14 +27,14 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleLogout = async () => {
     try {
-      await AsyncStorage.clear();
-      navigation.replace('LoginScreen');
+      await _deleteUserSession();
+      navigation.navigate('LoginScreen');
     } catch (error) {
       Alert.alert('Error', 'Failed to logout');
     }
   };
 
-  if (!user) return <Text>Loading...</Text>;
+  if (!user) return <LoadingComponent title={'Loading...'}/>;
 
   return (
     <View style={styles.container}>
