@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../../modules/loginoutStyle';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { _readUserSession } from '../../assets/sessionData';
+import LoadingComponent from '../../components/LoadingComponent';
 
 let config = require('../../Config');
 
