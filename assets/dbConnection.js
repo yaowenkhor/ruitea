@@ -1,18 +1,25 @@
-import {
-  SQLiteDatabase,
-  enablePromise,
+import {    
   openDatabase,
+  enablePromise
 } from 'react-native-sqlite-storage';
 import shortid from 'shortid';
 
+enablePromise(true);
+
 const databaseName = 'ruitea.sqlite';
 
-enablePromise(true);
+function openCallback(){
+    console.log('DB opened successfully');
+}
+
+function errorCallback(err){
+    console.log('DB opened unsuccessfully: ', err);
+}
 
 // Connect to database
 export const getDBConnection = async () => {
-  return openDatabase(
-    {name: `${databaseName}`, createFromLocation: `${databaseName}`},
+  return await openDatabase(
+    {name: `${databaseName}`, location: 'default', createFromLocation:`~${databaseName}`},
     openCallback,
     errorCallback,
   );
