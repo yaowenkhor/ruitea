@@ -72,14 +72,6 @@ const EditProfileScreen = ({ navigation }) => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await AsyncStorage.clear(); // or _deleteUserSession() if using your helper
-      navigation.replace('LoginScreen');
-    } catch (error) {
-      Alert.alert('Error', 'Failed to logout.');
-    }
-  };
 
   if (isLoading || !user) {
     return <Text>Loading...</Text>;
@@ -118,13 +110,10 @@ const EditProfileScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleUpdateProfile}>
         <Text style={styles.button_text}>Update Profile</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: '#B00020', marginTop: 10 }]}
-        onPress={handleLogout}
-      >
-        <Text style={styles.button_text}>Logout</Text>
-      </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileScreen')}>
+       <Text style={styles.button_text}>Back to Profile</Text>
+        </TouchableOpacity>
     </View>
   );
 };

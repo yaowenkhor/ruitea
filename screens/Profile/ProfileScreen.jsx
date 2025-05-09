@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
-import { styles } from '../../modules/loginoutStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { _readUserSession } from '../../assets/sessionData';
+import { profileStyles as styles } from '../../modules/profileScreenStyle';
 
 const ProfileScreen = ({ navigation }) => {
   const [user, setUser] = useState(null);
@@ -37,41 +37,20 @@ const ProfileScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Logo as profile image */}
-      <Image
-        source={require('../../img/Logo.png')}
-        style={{
-          width: 120,
-          height: 120,
-          resizeMode: 'contain',
-          borderRadius: 60,
-          marginBottom: 20,
-        }}
-      />
+      <Image source={require('../../img/Logo.png')} style={styles.logo} />
+      <Text style={styles.nameText}>{user.name}</Text>
+      <Text style={styles.phoneText}>{user.phone}</Text>
 
-      <Text style={styles.title}>{user.name}</Text>
-      <Text style={{ fontFamily: 'Gantari-Bold', color: '#555', marginBottom: 20 }}>{user.phone}</Text>
-
-      {/* Buttons */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('AboutUsScreen')}
-      >
-        <Text style={styles.button_text}>About Us</Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AboutUsScreen')}>
+        <Text style={styles.buttonText}>About Us</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: '#4A6B57', marginTop: 10 }]}
-        onPress={() => navigation.navigate('EditProfileScreen')}
-      >
-        <Text style={styles.button_text}>Edit Profile</Text>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditProfileScreen')}>
+        <Text style={styles.buttonText}>Edit Profile</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: '#B00020', marginTop: 10 }]}
-        onPress={handleLogout}
-      >
-        <Text style={styles.button_text}>Logout</Text>
+      <TouchableOpacity style={[styles.button, styles.logoutButton]} onPress={handleLogout}>
+        <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../../modules/loginoutStyle';
+import { checkoutStyles as cs } from '../../modules/checkoutScreenStyle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CheckoutScreen = ({ route, navigation }) => {
@@ -24,71 +25,35 @@ const CheckoutScreen = ({ route, navigation }) => {
   const paymentMethods = ['Credit Card', 'E-Wallet', 'Pay at Counter'];
 
   return (
-    <View style={styles.container}>
+    <View style={cs.container}>
       <Icon name="credit-card-check-outline" size={50} color="#4A6B57" style={{ marginBottom: 10 }} />
       <Text style={styles.title}>Checkout</Text>
 
-      <Text style={{ fontFamily: 'Gantari-Bold', fontSize: 16, marginTop: 20, alignSelf: 'flex-start' }}>
-        Select Payment Method
-      </Text>
-      
-      <View style={{ alignSelf: 'flex-start', marginTop: 10, gap: 12 }}>
+      <Text style={cs.sectionTitle}>Select Payment Method</Text>
+
+      <View style={cs.paymentOptionGroup}>
         {paymentMethods.map((method) => (
           <TouchableOpacity
             key={method}
             onPress={() => setSelectedMethod(method)}
-            style={{ flexDirection: 'row', alignItems: 'center' }}
+            style={cs.paymentOption}
           >
-            <View
-              style={{
-                height: 20,
-                width: 20,
-                borderRadius: 10,
-                borderWidth: 2,
-                borderColor: '#4A6B57',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: 10,
-              }}
-            >
-              {selectedMethod === method && (
-                <View
-                  style={{
-                    height: 10,
-                    width: 10,
-                    borderRadius: 5,
-                    backgroundColor: '#4A6B57',
-                  }}
-                />
-              )}
+            <View style={cs.radioOuter}>
+              {selectedMethod === method && <View style={cs.radioInner} />}
             </View>
-            <Text style={{ fontFamily: 'Gantari-Bold', color: '#333' }}>{method}</Text>
+            <Text style={cs.paymentText}>{method}</Text>
           </TouchableOpacity>
         ))}
       </View>
-      {error !== '' && (
-        <Text style={{ color: '#B00020', marginTop: 8, fontFamily: 'Gantari-Bold' }}>
-          {error}
-        </Text>
-      )}
-      <View
-        style={{
-          backgroundColor: 'white',
-          width: '100%',
-          padding: 20,
-          borderRadius: 12,
-          shadowColor: '#000',
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 2,
-          marginTop: 30,
-        }}
-      >
-        <Text style={{ fontFamily: 'Gantari-Bold', fontSize: 16 }}>Payment Summary</Text>
+
+      {error !== '' && <Text style={cs.errorText}>{error}</Text>}
+
+      <View style={cs.summaryBox}>
+        <Text style={cs.summaryTitle}>Payment Summary</Text>
         <View style={{ marginTop: 10 }}>
-          <Text style={{ fontFamily: 'Gantari-Bold', color: '#444' }}>Subtotal: RM {cartTotal.toFixed(2)}</Text>
-          <Text style={{ fontFamily: 'Gantari-Bold', color: '#444' }}>Service Tax (6%): RM {serviceTax}</Text>
-          <Text style={{ fontFamily: 'Gantari-Bold', fontSize: 16, marginTop: 10 }}>Net Total: RM {netTotal}</Text>
+          <Text style={cs.summaryText}>Subtotal: RM {cartTotal.toFixed(2)}</Text>
+          <Text style={cs.summaryText}>Service Tax (6%): RM {serviceTax}</Text>
+          <Text style={cs.summaryTotal}>Net Total: RM {netTotal}</Text>
         </View>
       </View>
 
@@ -96,7 +61,7 @@ const CheckoutScreen = ({ route, navigation }) => {
         <Text style={styles.button_text}>Confirm Order</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginTop: 15 }}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={cs.backLink}>
         <Text style={styles.link_text}>Back to Cart</Text>
       </TouchableOpacity>
     </View>
