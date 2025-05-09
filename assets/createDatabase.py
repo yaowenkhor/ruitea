@@ -4,6 +4,7 @@ db = sqlite3.connect('ruitea.sqlite')
 db.execute('DROP TABLE IF EXISTS users')
 db.execute('DROP TABLE IF EXISTS drinks')
 db.execute('DROP TABLE IF EXISTS cart')
+db.execute('DROP TABLE IF EXISTS orderHistory')
 
 db.execute('''CREATE TABLE users(
     user_id integer PRIMARY KEY,
@@ -145,7 +146,7 @@ cursor.execute('''
 
 cursor.execute('''
     INSERT INTO drinks(drink_id, name, description, category, image, tag, price)
-    VALUES(20, 'Pomegranate Tea', 'Antioxidant-rich pomegranate tea', 'Tea', 'PomegranteTea', 'new', 4.25)
+    VALUES(20, 'Pomegranate Tea', 'Antioxidant-rich pomegranate tea', 'Tea', 'PomegranateTea', 'new', 4.25)
 ''')
 
 
