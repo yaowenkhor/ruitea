@@ -41,7 +41,8 @@ db.execute('''CREATE TABLE orderHistory(
     size text NOT NULL,
     sugar text NOT NULL,
     date text NOT NULL,
-    order_number text NOT NULL
+    order_number text NOT NULL,
+    status text NOT NULL DEFAULT 'Preparing'
     )''')
 
 cursor = db.cursor()
