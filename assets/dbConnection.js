@@ -49,7 +49,7 @@ const drinkImageMap = {
     GenMaicha: require('../img/Tea/GenMaicha.png'),
     LemonadeTea: require('../img/Tea/LemonadeTea.png'),
     PassionFruitTea: require('../img/Tea/PassionFruitTea.png'),
-    PomegranteTea: require('../img/Tea/PomegranteTea.png')
+    PomegranateTea: require('../img/Tea/PomegranateTea.png')
 };
 
 export const getImage = key => drinkImageMap[key];
