@@ -242,3 +242,21 @@ export const updateOrderStatus = async (db, orderNumber, status) => {
     throw Error('Failed to update order status');
   }
 };
+
+export const getOrderHistory = async (db, user_id) => {
+  try {
+    const orderHistory = [];
+    const query = `SELECT * FROM orderHistory JOIN drinks ON orderHistory.drink_id = drinks.drink_id WHERE orderHistory.user_id = ? ORDER BY substr(orderHistory.date, 7, 4) DESC, substr(orderHistory.date, 4, 2) DESC, substr(orderHistory.date, 1, 2) DESC`;
+    const results = await db.executeSql(query, [user_id]);
+    results.forEach(result => {
+      result.rows.raw().forEach(order => {
+        orderHistory.push(order);
+      });
+    });
+
+    return orderHistory;
+  } catch (error) {
+    console.error(error);
+    throw Error('Failed to get order history');
+  }
+}
