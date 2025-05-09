@@ -60,29 +60,28 @@ def create_user():
 # Route to handle PUT request to update user details
 @app.route('/api/user/update/<int:user_id>', methods=['PUT'])
 def update_user(user_id):
-    
     if not request.json:
         return jsonify({"error": "No JSON data is provided"})
-    
-    hash = hash_password(request.json['password'])
-    
-    update_user = (
-        request.json['name'],
-        request.json['phone'],
-        hash,
-        user_id
-    )
-    
+
     db = sqlite3.connect(DB)
     cursor = db.cursor()
-    
-    cursor.execute('''
-        UPDATE users SET name=?,phone=?,password=? WHERE user_id=?
-    ''', update_user)
-    
+
+    name = request.json.get('name')
+    phone = request.json.get('phone')
+    password = request.json.get('password')
+
+    if password:
+        hashed = hash_password(password)
+        cursor.execute('''
+            UPDATE users SET name=?, phone=?, password=? WHERE user_id=?
+        ''', (name, phone, hashed, user_id))
+    else:
+        cursor.execute('''
+            UPDATE users SET name=?, phone=? WHERE user_id=?
+        ''', (name, phone, user_id))
+
     db.commit()
     db.close()
-    
     return jsonify({"success": "User successfully updated"}), 201
 
 # Route to handle GET request to retrieve user details
