@@ -5,6 +5,7 @@ db.execute('DROP TABLE IF EXISTS users')
 db.execute('DROP TABLE IF EXISTS drinks')
 db.execute('DROP TABLE IF EXISTS cart')
 db.execute('DROP TABLE IF EXISTS orderHistory')
+db.execute('DROP TABLE IF EXISTS feedback')
 
 db.execute('''CREATE TABLE users(
     user_id integer PRIMARY KEY,
@@ -45,6 +46,15 @@ db.execute('''CREATE TABLE orderHistory(
     order_number text NOT NULL,
     status text NOT NULL DEFAULT 'Preparing'
     )''')
+
+db.execute('''CREATE TABLE feedback(
+    feedback_id integer PRIMARY KEY,
+    user_id integer NOT NULL,
+    order_number text NOT NULL,
+    rating integer NOT NULL,
+    comment text
+    )''')
+
 
 cursor = db.cursor()
 

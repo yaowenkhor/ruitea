@@ -20,23 +20,22 @@ def handle_connect_connected_order(json):
 @socketio.on('client_send', namespace='/order')
 def handle_client_send_order(json):
     order = json['order']
-    order_number = order['order_number']
-    items = order.get('items', [])
-    
+    order_number = order['orderNumber']
+    item_count = order['itemsCount']
+
     statuses = ["Preparing", "Ready to pick up"]
      
     #Calculate delivering time 
-    item_count = sum(item.get('quantity', 1) for item in items)
     preparingTime = 5 * item_count 
     
     emit_preparing_result(preparingTime, order_number, statuses)
 
 def emit_preparing_result(preparingTime, order_number, statuses):
     for status in statuses:
-        emit('server_send', json.dumps({
+        emit('server_send',{
             'order_number': order_number,
             'status': status
-        }), namespace='/order')
+        }, namespace='/order')
         socketio.sleep(preparingTime)
     
 if __name__ == '__main__':
