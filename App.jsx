@@ -23,8 +23,9 @@ import OrderTrackingScreen from './screens/Orders/OrderTrackingScreen';
 import OrderHistoryScreen from './screens/Orders/OrderHistoryScreen';
 import FeedbackScreen from './screens/Orders/FeedbackScreen';
 
-import ProfileScreen from './screens/Profile/ProfileScreen';
+import ProfileScreen from './screens/Profile/ProfileScreen'; 
 import AboutUsScreen from './screens/Profile/AboutUsScreen';
+import EditProfileScreen from './screens/Profile/EditProfileScreen';
 
 const App = () =>{
     return(
@@ -185,6 +186,10 @@ const Profile = () =>{
                     component={AboutUsScreen}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen 
+                    name="EditProfileScreen" 
+                    component={EditProfileScreen}
+                    options={{ headerShown: false }} />
             </Stack.Navigator>
     )
 }

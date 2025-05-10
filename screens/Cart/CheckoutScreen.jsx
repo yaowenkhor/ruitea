@@ -1,10 +1,85 @@
-import React from 'react'
-import { View } from 'react-native'
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import { styles } from '../../modules/loginoutStyle';
+import { checkoutStyles as cs } from '../../modules/checkoutScreenStyle';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getDBConnection, processCheckout } from '../../assets/dbConnection';
+import { _readUserSession } from '../../assets/sessionData';
 
-const CheckoutScreen = () => {
+const CheckoutScreen = ({ route, navigation }) => {
+  const [selectedMethod, setSelectedMethod] = useState('');
+  const [error, setError] = useState('');
+  const { total } = route.params;
+  const cartTotal = parseFloat(total);
+  const serviceTax = (cartTotal * 0.06).toFixed(2);
+  const netTotal = (cartTotal + parseFloat(serviceTax)).toFixed(2);
+
+
+  const handleConfirm = async () => {
+
+    const session = await _readUserSession();
+    if (!selectedMethod) {
+      setError('Please select a payment method');
+      return;
+    }
+    setError('');
+
+    const db = await getDBConnection();
+    processCheckout(db, session.user_id);
+
+    Alert.alert('Order Confirmed', `Payment by: ${selectedMethod}`);
+
+    navigation.popToTop();
+
+    navigation.navigate('Orders',{
+      screen: 'OrderTrackingScreen'
+    });
+  };
+
+  const paymentMethods = ['Credit Card', 'E-Wallet', 'Pay at Counter'];
+
   return (
-    <View></View>
-  )
-}
+    <View style={cs.container}>
+      <Icon name="credit-card-check-outline" size={50} color="#4A6B57" style={{ marginBottom: 10 }} />
+      <Text style={styles.title}>Checkout</Text>
 
-export default CheckoutScreen
+      <Text style={cs.sectionTitle}>Select Payment Method</Text>
+
+      <View style={cs.paymentOptionGroup}>
+        {paymentMethods.map((method) => (
+          <TouchableOpacity
+            key={method}
+            onPress={() => setSelectedMethod(method)}
+            style={cs.paymentOption}
+          >
+            <View style={cs.radioOuter}>
+              {selectedMethod === method && <View style={cs.radioInner} />}
+            </View>
+            <Text style={cs.paymentText}>{method}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {error !== '' && <Text style={cs.errorText}>{error}</Text>}
+
+      <View style={cs.summaryBox}>
+        <Text style={cs.summaryTitle}>Payment Summary</Text>
+        <View style={{ marginTop: 10 }}>
+          <Text style={cs.summaryText}>Subtotal: RM {cartTotal.toFixed(2)}</Text>
+          <Text style={cs.summaryText}>Service Tax (6%): RM {serviceTax}</Text>
+          <Text style={cs.summaryTotal}>Net Total: RM {netTotal}</Text>
+        </View>
+      </View>
+
+      <TouchableOpacity style={[styles.button, { marginTop: 30 }]} onPress={handleConfirm}>
+        <Text style={styles.button_text}>Confirm Order</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.goBack()} style={cs.backLink}>
+        <Text style={styles.link_text}>Back to Cart</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default CheckoutScreen;
