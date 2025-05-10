@@ -153,15 +153,15 @@ const Cart = () =>{
 
 const Orders = () =>{
     return(
-            <Stack.Navigator initialRouteName='OrderTrackingScreen'>
-                <Stack.Screen
-                    name='OrderTrackingScreen'
-                    component={OrderTrackingScreen}
-                    options={{ headerShown: false }}
-                />
+            <Stack.Navigator initialRouteName='OrderHistoryScreen'>
                 <Stack.Screen
                     name='OrderHistoryScreen'
                     component={OrderHistoryScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name='OrderTrackingScreen'
+                    component={OrderTrackingScreen}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen

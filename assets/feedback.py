@@ -9,7 +9,7 @@ socketio = SocketIO(app)
 def handle_rating_response(rating):
     match rating:
         case 5:
-            return "Thank you for the 5-star rating, [Customer Name]! We're thrilled you had a fantastic experience."
+            return "Thank you for the 5-star rating! We're thrilled you had a fantastic experience."
         case 4:
             return "Thank you for the 4-star review. We're delighted to hear you enjoyed your experience. Your feedback is valuable."
         case 3:
@@ -32,7 +32,8 @@ def handle_connect_connected_feedback(json):
 @socketio.on('client_send', namespace='/feedback')
 def handle_client_send_feedback(json):
     feedback = json['feedback']
-    rating = feedback['rating']
+    rating = int(feedback['rating']) 
+    print(rating)
 
     rating_response = handle_rating_response(rating)
 

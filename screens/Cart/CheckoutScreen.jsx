@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, Alert, ToastAndroid } from 'react-native';
 import { styles } from '../../modules/loginoutStyle';
 import { checkoutStyles as cs } from '../../modules/checkoutScreenStyle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { getDBConnection, processCheckout } from '../../assets/dbConnection';
 import { _readUserSession } from '../../assets/sessionData';
+import socket from '../../assets/socketConnection';
+
+
 
 const CheckoutScreen = ({ route, navigation }) => {
   const [selectedMethod, setSelectedMethod] = useState('');
@@ -14,6 +17,24 @@ const CheckoutScreen = ({ route, navigation }) => {
   const serviceTax = (cartTotal * 0.06).toFixed(2);
   const netTotal = (cartTotal + parseFloat(serviceTax)).toFixed(2);
 
+  useEffect(() =>{
+    socket.on('connect', ()=>{
+      console.log(socket.id);
+      socket.emit('client_connected', {connected: true});
+      ToastAndroid.show('Connected to server', ToastAndroid.LONG);
+    });
+
+    socket.on('error', (error) => {
+      ToastAndroid.show('Failed to connect to server', ToastAndroid.LONG);
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('error');
+    };
+
+  },[]) 
+
 
   const handleConfirm = async () => {
 
@@ -22,17 +43,26 @@ const CheckoutScreen = ({ route, navigation }) => {
       setError('Please select a payment method');
       return;
     }
-    setError('');
 
     const db = await getDBConnection();
-    processCheckout(db, session.user_id);
+    const orderMetaData = await processCheckout(db, session.user_id);
+    console.log(orderMetaData);
 
     Alert.alert('Order Confirmed', `Payment by: ${selectedMethod}`);
+
+    try {
+      socket.emit('client_send',{
+        order: orderMetaData
+      })
+    } catch (error) {
+      console.error('Socket error:', error);
+    }
 
     navigation.popToTop();
 
     navigation.navigate('Orders',{
-      screen: 'OrderTrackingScreen'
+      screen: 'OrderHistoryScreen',
+      params: { refresh: Date.now() }
     });
   };
 
