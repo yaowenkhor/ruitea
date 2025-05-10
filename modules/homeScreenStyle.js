@@ -27,7 +27,7 @@ export const homeStyles = StyleSheet.create({
     marginBottom: 20,
     position: 'relative',
     borderRadius: 24,
-    overflow: 'hidden'
+    overflow: 'hidden',
   },
   bannerImage: {
     width: screenWidth - 32,
@@ -99,5 +99,13 @@ export const homeStyles = StyleSheet.create({
     color: 'gray',
     textAlign: 'center',
     fontFamily: 'Gantari-Bold',
+  },
+  ViewFullMenuButton: {
+    backgroundColor: '#4A6B57',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    alignSelf: 'center',
+    marginTop: 20,
   },
 });
