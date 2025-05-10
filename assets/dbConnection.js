@@ -1,25 +1,26 @@
-import {    
-  openDatabase,
-  enablePromise
-} from 'react-native-sqlite-storage';
+import {openDatabase, enablePromise} from 'react-native-sqlite-storage';
 import shortid from 'shortid';
 
 enablePromise(true);
 
 const databaseName = 'ruitea.sqlite';
 
-function openCallback(){
-    console.log('DB opened successfully');
+function openCallback() {
+  console.log('DB opened successfully');
 }
 
-function errorCallback(err){
-    console.log('DB opened unsuccessfully: ', err);
+function errorCallback(err) {
+  console.log('DB opened unsuccessfully: ', err);
 }
 
 // Connect to database
 export const getDBConnection = async () => {
   return await openDatabase(
-    {name: `${databaseName}`, location: 'default', createFromLocation:`~${databaseName}`},
+    {
+      name: `${databaseName}`,
+      location: 'default',
+      createFromLocation: `~${databaseName}`,
+    },
     openCallback,
     errorCallback,
   );
@@ -59,7 +60,8 @@ const drinkImageMap = {
   PomegranateTea: require('../img/Tea/PomegranateTea.png'),
 };
 
-export const getImage = key => drinkImageMap[key];
+const defaultImage = require('../img/Logo.png');
+export const getImage = key => drinkImageMap[key] || defaultImage;
 
 // Get all category drinks
 export const getAllDrinks = async db => {
