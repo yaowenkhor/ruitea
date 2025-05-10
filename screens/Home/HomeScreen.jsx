@@ -41,12 +41,12 @@ const screenWidth = Dimensions.get('window').width;
 
 const LogoHeader = () => (
   <View style={homeStyles.logoContainer}>
-    <TouchableOpacity onPress={() => Alert.alert('Logo Clicked')}>
+    
       <Image
         source={require('../../img/Logo.png')}
         style={homeStyles.logoImage}
       />
-    </TouchableOpacity>
+    
   </View>
 );
 

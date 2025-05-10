@@ -61,4 +61,24 @@ export const drinksListStyles = StyleSheet.create({
     color: '#888',
     fontFamily: 'Gantari-Bold',
   },
+  cartIcon: {
+    position: 'absolute',
+    right: 16,
+    top: 12,
+    zIndex: 10,
+  },
+  cartBadge: {
+    position: 'absolute',
+    right: -6,
+    top: -6,
+    backgroundColor: '#B00020',
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+  },
+  badgeText: {
+    color: 'white',
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
 });
