@@ -1,6 +1,8 @@
 {
     "branches":{
         "branch_1":{
+            "name": "Sungai Long Branch",
+            "phone": "017-3877789",
             "address": "No 19, Ground Floor, Jalan SL 1/4, Bandar Sungai Long, 43000 Kajang, Selangor",
             "longitude": "3.0408914440595165",
             "latitude": "101.79291174104488",
@@ -15,6 +17,8 @@
             }
         },
         "branch_2":{
+            "name": "UCSI Branch",
+            "phone": "012-1433223",
             "address": "UCSI Heights, Lot 6, Block G, Ground Floor, UCSI University, 1, Jalan Menara Gading, Taman Connaught, 56000 Cheras, Wilayah Persekutuan Kuala Lumpur",
             "longitude": "3.078469663341562",
             "latitude": "101.7328666563733",
