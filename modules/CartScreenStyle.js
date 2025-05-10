@@ -1,4 +1,3 @@
-// CartScreenStyle.js
 import {StyleSheet} from 'react-native';
 
 export const cartStyles = StyleSheet.create({

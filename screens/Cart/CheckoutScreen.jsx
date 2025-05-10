@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, ToastAndroid } from 'react-native';
 import { styles } from '../../modules/loginoutStyle';
 import { checkoutStyles as cs } from '../../modules/checkoutScreenStyle';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getDBConnection, processCheckout } from '../../assets/dbConnection';
 import { _readUserSession } from '../../assets/sessionData';
 import socket from '../../assets/socketConnection';
@@ -70,7 +70,8 @@ const CheckoutScreen = ({ route, navigation }) => {
 
   return (
     <View style={cs.container}>
-      <Icon name="credit-card-check-outline" size={50} color="#4A6B57" style={{ marginBottom: 10 }} />
+      <Ionicons name="cash-outline" size={50} color="#4A6B57" style={{ marginBottom: 10 }}/>
+
       <Text style={styles.title}>Checkout</Text>
 
       <Text style={cs.sectionTitle}>Select Payment Method</Text>

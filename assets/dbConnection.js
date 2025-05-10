@@ -312,22 +312,3 @@ export const hasFeedback = async (db, orderNumber) => {
     throw Error('Failed to check feedback status');
   }
 };
-
-export const getFeedback = async (db, orderNumber) => {
-  try {
-    const feedbackData = [];
-    const query = `SELECT * FROM feedback WHERE order_number=?`;
-    const results = await db.executeSql(query, [orderNumber]);
-    
-    results.forEach(result => {
-      result.rows.raw().forEach(feedback => {
-        feedbackData.push(feedback);
-      });
-    });
-    
-    return feedbackData;
-  } catch (error) {
-    console.error(error);
-    throw Error('Failed to get feedback data');
-  }
-};

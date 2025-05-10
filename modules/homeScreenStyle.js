@@ -8,7 +8,6 @@ export const homeStyles = StyleSheet.create({
     backgroundColor: '#FAF9F6',
   },
 
-  // Logo
   logoContainer: {
     alignItems: 'center',
     marginBottom: 10,
@@ -19,7 +18,6 @@ export const homeStyles = StyleSheet.create({
     resizeMode: 'contain',
   },
 
-  // Banner
   bannerWrapper: {
     width: screenWidth - 32,
     alignSelf: 'center',

@@ -8,13 +8,6 @@ export const _saveUserSession = async(id, name, email, phone) =>{
     }
 }
 
-export const _saveUserTheme = async(theme) =>{
-    try {
-        await AsyncStorage.setItem('theme', theme);
-    } catch (error) {
-        console.error("Error: ", error);
-    }
-}
 
 export const _deleteUserSession = async() =>{
     try {
@@ -33,15 +26,6 @@ export const _readUserSession = async() =>{
 
         return {user_id, name, email, phone}
 
-    } catch (error) {
-        console.error("Error: ", error);
-    }
-}
-
-export const _readUserTheme = async() =>{
-    try {
-        const theme = await AsyncStorage.getItem('theme');
-        return theme;
     } catch (error) {
         console.error("Error: ", error);
     }

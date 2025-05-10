@@ -70,7 +70,7 @@ const DrinkDetailScreen = () => {
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.cartIcon}
-        onPress={() => navigation.navigate('CartScreen')}
+        onPress={() => navigation.navigate('Cart', { screen: 'CartScreen' })}
       >
         <Ionicons name="cart-outline" size={25} color="#4A6B57" />
         {cartCount > 0 && (
