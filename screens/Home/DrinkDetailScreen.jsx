@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
-  View, Text, Image, StyleSheet,
+  View, Text, Image,
   TouchableOpacity, Alert,
 } from 'react-native';
 import { getDBConnection, addCartItem, getCartItem } from '../../assets/dbConnection';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { _readUserSession } from '../../assets/sessionData';
 import { drinkDetailStyles as styles } from '../../modules/DrinkDetailStyle';
+
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const DrinkDetailScreen = () => {
@@ -39,9 +41,11 @@ const DrinkDetailScreen = () => {
     setCartCount(totalCups);
   };
 
-  useEffect(() => {
-    loadCartCount();
-  }, []);
+  useFocusEffect(
+    useCallback(()=>{
+      loadCartCount();
+    })
+  );
 
   const handleAddToCart = async () => {
     try {
@@ -64,12 +68,11 @@ const DrinkDetailScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* Cart icon */}
       <TouchableOpacity
         style={styles.cartIcon}
         onPress={() => navigation.navigate('CartScreen')}
       >
-        <Icon name="cart" size={28} color="#4A6B57" />
+        <Ionicons name="cart-outline" size={25} color="#4A6B57" />
         {cartCount > 0 && (
           <View style={styles.cartBadge}>
             <Text style={styles.badgeText}>{cartCount}</Text>
@@ -77,13 +80,11 @@ const DrinkDetailScreen = () => {
         )}
       </TouchableOpacity>
 
-      {/* Image and Info */}
       <Image source={drink.image} style={styles.image} />
       <Text style={styles.name}>{drink.name}</Text>
       <Text style={styles.description}>{drink.description}</Text>
       <Text style={styles.price}>RM {calculatePriceBySize()}</Text>
 
-      {/* Size Selection */}
       <Text style={styles.label}>Choose Size:</Text>
       <View style={styles.selector}>
         {['Small', 'Regular', 'Large'].map(option => (
@@ -99,7 +100,6 @@ const DrinkDetailScreen = () => {
         ))}
       </View>
 
-      {/* Sugar Selection */}
       <Text style={styles.label}>Sugar Level:</Text>
       <View style={styles.selector}>
         {['0%', '50%', '100%'].map(option => (
@@ -115,7 +115,6 @@ const DrinkDetailScreen = () => {
         ))}
       </View>
 
-      {/* Quantity Selection */}
       <Text style={styles.label}>Quantity:</Text>
       <View style={styles.quantityRow}>
         <TouchableOpacity
@@ -133,7 +132,6 @@ const DrinkDetailScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Add to Cart Button */}
       <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
         <Text style={styles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>

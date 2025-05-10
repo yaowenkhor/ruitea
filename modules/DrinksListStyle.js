@@ -16,13 +16,13 @@ export const drinksListStyles = StyleSheet.create({
   },
   sidebarText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontFamily: 'Gantari-Bold',
     marginVertical: 10,
     color: '#4A6B57',
   },
   sectionHeader: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'Gantari-Bold',
     backgroundColor: '#f0f0f0',
     paddingVertical: 8,
     paddingHorizontal: 10,
@@ -52,12 +52,13 @@ export const drinksListStyles = StyleSheet.create({
     marginBottom: 8,
   },
   name: {
-    fontWeight: '600',
+    fontFamily: 'Gantari-Bold',
     textAlign: 'center',
     fontSize: 14,
   },
   price: {
     fontSize: 12,
     color: '#888',
+    fontFamily: 'Gantari-Bold',
   },
 });

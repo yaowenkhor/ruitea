@@ -5,14 +5,12 @@ import {
   Image,
   TouchableOpacity,
   SectionList,
-  StyleSheet,
   Dimensions,
   Alert,
 } from 'react-native';
 import { getDBConnection, getAllDrinks } from '../../assets/dbConnection';
 import { drinksListStyles as styles } from '../../modules/DrinksListStyle';
 
-const screenWidth = Dimensions.get('window').width;
 
 const CATEGORY_LIST = ['Coffee', 'MilkTea', 'Smoothie', 'Tea'];
 

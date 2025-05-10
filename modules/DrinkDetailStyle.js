@@ -23,7 +23,7 @@ export const drinkDetailStyles = StyleSheet.create({
   badgeText: {
     color: 'white',
     fontSize: 10,
-    fontWeight: 'bold',
+    fontFamily: 'Gantari-Bold',
   },
   image: {
     width: 180,
@@ -33,7 +33,7 @@ export const drinkDetailStyles = StyleSheet.create({
   },
   name: {
     fontSize: 22,
-    fontWeight: '700',
+    fontFamily: 'Gantari-Bold',
     color: '#4A6B57',
     marginBottom: 8,
   },
@@ -42,16 +42,17 @@ export const drinkDetailStyles = StyleSheet.create({
     color: '#444',
     textAlign: 'center',
     marginBottom: 10,
+    fontFamily: 'Gantari-Bold',
   },
   price: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontFamily: 'Gantari-Bold',
     color: '#888',
     marginBottom: 20,
   },
   label: {
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: 'Gantari-Bold',
     alignSelf: 'flex-start',
     color: '#4A6B57',
     marginTop: 10,
@@ -76,7 +77,7 @@ export const drinkDetailStyles = StyleSheet.create({
     borderColor: '#4A6B57',
   },
   selectText: {
-    fontWeight: '600',
+    fontFamily: 'Gantari-Bold',
     color: '#4A6B57',
   },
   selectedText: {
@@ -97,11 +98,11 @@ export const drinkDetailStyles = StyleSheet.create({
   qtyBtnText: {
     fontSize: 20,
     color: '#4A6B57',
-    fontWeight: 'bold',
+    fontFamily: 'Gantari-Bold',
   },
   qtyValue: {
     fontSize: 18,
-    fontWeight: '600',
+    fontFamily: 'Gantari-Bold',
   },
   button: {
     backgroundColor: '#4A6B57',
@@ -113,6 +114,6 @@ export const drinkDetailStyles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: '600',
+    fontFamily: 'Gantari-Bold',
   },
 });

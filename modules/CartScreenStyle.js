@@ -28,6 +28,9 @@ export const cartStyles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
+  empty: {
+    fontFamily: 'Gantari-Bold',
+  },
   image: {
     height: 60,
     width: 60,
@@ -53,6 +56,7 @@ export const cartStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    fontFamily: 'Gantari-Bold',
   },
   swipeDelete: {
     backgroundColor: '#B00020',

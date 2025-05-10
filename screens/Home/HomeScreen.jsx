@@ -13,6 +13,8 @@ import { homeStyles } from '../../modules/homeScreenStyle';
 import { _readUserSession } from '../../assets/sessionData';
 import { useNavigation } from '@react-navigation/native';
 
+import LoadingComponent from '../../components/LoadingComponent';
+
 const banners = [
   require('../../img/banner1.png'),
   require('../../img/banner2.png'),
@@ -48,7 +50,7 @@ const LogoHeader = () => (
   </View>
 );
 
-const BannerSlider = ({ bannerRef, currentBanner }) => (
+const BannerSlider = ({ bannerRef }) => (
   <View style={homeStyles.bannerWrapper}>
     <ScrollView
       horizontal
@@ -106,9 +108,7 @@ const HomeScreen = () => {
 
   if (isLoading) {
     return (
-      <View style={homeStyles.container}>
-        <Text style={homeStyles.welcomeText}>Loading...</Text>
-      </View>
+      <LoadingComponent title={'Loading...'}/>
     );
   }
 
@@ -141,7 +141,7 @@ const HomeScreen = () => {
           }}
           onPress={() => navigation.navigate('DrinkListScreen')}
         >
-          <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+          <Text style={{ color: '#fff', fontFamily: 'Gantari-Bold', }}>
             View Full Menu
           </Text>
         </TouchableOpacity>

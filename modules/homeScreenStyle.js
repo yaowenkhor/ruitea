@@ -5,7 +5,7 @@ const screenWidth = Dimensions.get('window').width;
 export const homeStyles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FAF9F6',
   },
 
   // Logo
@@ -21,13 +21,16 @@ export const homeStyles = StyleSheet.create({
 
   // Banner
   bannerWrapper: {
-    width: screenWidth,
+    width: screenWidth - 32,
+    alignSelf: 'center',
     height: 200,
     marginBottom: 20,
     position: 'relative',
+    borderRadius: 24,
+    overflow: 'hidden'
   },
   bannerImage: {
-    width: screenWidth,
+    width: screenWidth - 32,
     height: 200,
     resizeMode: 'cover',
   },
@@ -49,7 +52,7 @@ export const homeStyles = StyleSheet.create({
 
   // Titles
   categoryTitle: {
-    fontWeight: 'bold',
+    fontFamily: 'Gantari-Bold',
     fontSize: 18,
     marginBottom: 8,
     alignSelf: 'flex-start',
@@ -57,7 +60,6 @@ export const homeStyles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 30,
-    fontWeight: 'bold',
     textAlign: 'center',
     color: '#355E3B',
     marginBottom: 20,
@@ -89,12 +91,13 @@ export const homeStyles = StyleSheet.create({
   },
   drinkName: {
     fontSize: 15,
-    fontWeight: '500',
+    fontFamily: 'Gantari-Bold',
     textAlign: 'center',
   },
   drinkPrice: {
     fontSize: 14,
     color: 'gray',
     textAlign: 'center',
+    fontFamily: 'Gantari-Bold',
   },
 });

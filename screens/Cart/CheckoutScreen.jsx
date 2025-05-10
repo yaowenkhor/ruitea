@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../../modules/loginoutStyle';
 import { checkoutStyles as cs } from '../../modules/checkoutScreenStyle';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { getDBConnection, processCheckout } from '../../assets/dbConnection';
+import { _readUserSession } from '../../assets/sessionData';
 
 const CheckoutScreen = ({ route, navigation }) => {
   const [selectedMethod, setSelectedMethod] = useState('');
@@ -12,14 +14,26 @@ const CheckoutScreen = ({ route, navigation }) => {
   const serviceTax = (cartTotal * 0.06).toFixed(2);
   const netTotal = (cartTotal + parseFloat(serviceTax)).toFixed(2);
 
-  const handleConfirm = () => {
+
+  const handleConfirm = async () => {
+
+    const session = await _readUserSession();
     if (!selectedMethod) {
       setError('Please select a payment method');
       return;
     }
     setError('');
+
+    const db = await getDBConnection();
+    processCheckout(db, session.user_id);
+
     Alert.alert('Order Confirmed', `Payment by: ${selectedMethod}`);
+
     navigation.popToTop();
+
+    navigation.navigate('Orders',{
+      screen: 'OrderTrackingScreen'
+    });
   };
 
   const paymentMethods = ['Credit Card', 'E-Wallet', 'Pay at Counter'];

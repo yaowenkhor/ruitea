@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { View, Text, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../../modules/loginoutStyle';
 import { cartStyles } from '../../modules/CartScreenStyle';
 import { Swipeable } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   getDBConnection,
   getCartItem,
@@ -11,6 +11,10 @@ import {
   removeCartItem,
 } from '../../assets/dbConnection';
 import { _readUserSession } from '../../assets/sessionData';
+
+import { useFocusEffect } from '@react-navigation/native';
+
+import LoadingComponent from '../../components/LoadingComponent';
 
 const CartScreen = ({ navigation }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -50,9 +54,10 @@ const CartScreen = ({ navigation }) => {
     }
   };
 
-  useEffect(() => {
-    loadCart();
-  }, []);
+  useFocusEffect(
+    useCallback(() =>{
+      loadCart();
+    },[]));
 
   const getAdjustedPrice = (basePrice, size) => {
     if (size === 'Small') return basePrice * 0.75;
@@ -103,7 +108,7 @@ const CartScreen = ({ navigation }) => {
       onPress={() => deleteItem(id)}
       style={cartStyles.swipeDelete}
     >
-      <Icon name="trash-can-outline" size={25} color="#fff" />
+      <Ionicons name="trash-outline" size={25} />
     </TouchableOpacity>
   );
 
@@ -144,10 +149,16 @@ const CartScreen = ({ navigation }) => {
     navigation.navigate('CheckoutScreen', { total: getTotal() });
   };
 
+  if (isLoading) {
+    return (
+      <LoadingComponent title={'Loading...'}/>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        <Icon name="cart" size={25} /> Your Cart
+        <Ionicons name="cart-outline" size={25} />
       </Text>
       <FlatList
         style={cartStyles.list}
