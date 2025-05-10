@@ -36,7 +36,6 @@ const OrderHistoryScreen = ({navigation, route}) => {
       const db = await getDBConnection();
       const history = await getOrderHistory(db, user_id);
   
-      // Add hasFeedback field to each order
       const enrichedHistory = await Promise.all(
         history.map(async order => {
           if (order.status === 'Past') {
@@ -82,6 +81,7 @@ const OrderHistoryScreen = ({navigation, route}) => {
             const db = await getDBConnection();
             await updateOrderStatus(db, order_number, status);
             await fetchData();
+            navigation.navigate('OrderHistoryScreen')
           } catch (error) {
             console.error('Failed to update order status:', error);
           }
@@ -119,6 +119,7 @@ const OrderHistoryScreen = ({navigation, route}) => {
       const db = await getDBConnection();
       await updateOrderStatus(db, orderNumber, 'Past');
       await fetchData();
+      navigation.navigate('OrderHistoryScreen')
       Alert.alert('Order Collected', 'The order has been collected');
     } catch (error) {
       console.error('Failed to update order status:', error);
