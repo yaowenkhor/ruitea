@@ -108,7 +108,7 @@ const CartScreen = ({ navigation }) => {
       onPress={() => deleteItem(id)}
       style={cartStyles.swipeDelete}
     >
-      <Ionicons name="trash-outline" size={25} />
+      <Ionicons name="trash-outline" size={25} color="#fff"/>
     </TouchableOpacity>
   );
 
