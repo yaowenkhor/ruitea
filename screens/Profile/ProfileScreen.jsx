@@ -5,7 +5,7 @@ import { profileStyles as styles } from '../../modules/profileScreenStyle';
 
 import LoadingComponent from '../../components/LoadingComponent';
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ navigation, route }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const ProfileScreen = ({ navigation }) => {
       }
     };
     loadUser();
-  }, []);
+  }, [route.params?.refresh]);
 
   const handleLogout = async () => {
     try {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { styles } from '../../modules/loginoutStyle';
-import { _readUserSession } from '../../assets/sessionData';
+import { _readUserSession, _saveUserSession } from '../../assets/sessionData';
 import LoadingComponent from '../../components/LoadingComponent';
 
 let config = require('../../Config');
@@ -70,6 +70,8 @@ const EditProfileScreen = ({ navigation }) => {
       const data = await response.json();
       if (data.success) {
         Alert.alert('Success', 'Profile updated successfully');
+        await _saveUserSession(userId, updatedName, user.email, updatedPhone);
+        navigation.navigate('ProfileScreen', {refresh: true});
       } else {
         Alert.alert('Error', data.error);
       }
@@ -87,9 +89,6 @@ const EditProfileScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
-
-      <Text style={styles.label}>Email:</Text>
-      <Text style={[styles.input, { paddingVertical: 10 }]}>{user.email}</Text>
 
       <Text style={styles.label}>Name:</Text>
       <TextInput
