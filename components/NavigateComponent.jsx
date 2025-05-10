@@ -3,7 +3,7 @@ import { View, Button, Alert, PermissionsAndroid, Platform } from 'react-native'
 import openMap from 'react-native-open-maps';
 import Geolocation from '@react-native-community/geolocation';
 
-const NavigateComponent = ({ destinationLong, destinationLat, destinationName }) => {
+const NavigateComponent = ({ destinationLat, destinationLong, destinationName }) => {
     const [userLocation, setUserLocation] = useState(null);
 
     // Request Location Permission
@@ -42,8 +42,8 @@ const NavigateComponent = ({ destinationLong, destinationLat, destinationName })
             Geolocation.getCurrentPosition(
                 (position) => {
                     setUserLocation({
-                        longitude: position.coords.longitude,
                         latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
                     });
                 },
                 (error) => {

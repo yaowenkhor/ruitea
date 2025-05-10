@@ -43,7 +43,7 @@ const AboutUsScreen = () => {
             <Text key={index} style={styles.text}>{day}: {time}</Text>
           ))}
 
-          <NavigateComponent destinationLong={branch.longitude} destinationLat={branch.latitude} destinationName={branch.name} />
+          <NavigateComponent destinationLat={branch.latitude} destinationLong={branch.longitude} destinationName={branch.name} />
         </View>
       ))}
       
