@@ -3,6 +3,7 @@ import { ScrollView, View, Text, StyleSheet } from 'react-native';
 
 import { aboutStyles as styles } from '../../modules/profileScreenStyle';
 import branchData from '../../assets/branch.json';
+import NavigateComponent from '../../components/NavigateComponent';
 
 const AboutUsScreen = () => {
   const branches = branchData.branches;
@@ -42,9 +43,7 @@ const AboutUsScreen = () => {
             <Text key={index} style={styles.text}>{day}: {time}</Text>
           ))}
 
-          <Text style={styles.label}>📌 Coordinates:</Text>
-          <Text style={styles.text}>Lat: {branch.latitude}</Text>
-          <Text style={styles.text}>Lng: {branch.longitude}</Text>
+          <NavigateComponent destinationLong={branch.longitude} destinationLat={branch.latitude} destinationName={branch.name} />
         </View>
       ))}
       
